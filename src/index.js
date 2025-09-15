@@ -1,8 +1,16 @@
+import Stats from 'stats.js';
 import "./style.css";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import * as dat from "lil-gui";
 import gridImage from "./textures/grid2.jpg";
+
+
+/**FPSを観測する */
+const stats = new Stats();
+stats.showPanel(0); // 0: fps, 1: ms, 2: memory
+document.body.appendChild(stats.dom);
+
 
 /**
  * Sizes
@@ -920,6 +928,7 @@ gui
 const clock = new THREE.Clock();
 
 const animate = () => {
+  stats.begin();
   //時間取得
   const elapsedTime = clock.getElapsedTime();
 
@@ -938,6 +947,7 @@ const animate = () => {
   renderer.render(scene, camera);
 
   window.requestAnimationFrame(animate);
+  stats.end();
 
 };
 
