@@ -1,8 +1,18 @@
+import Stats from 'stats.js';
 import "./style.css";
 import * as THREE from "three";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+// import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import * as dat from "lil-gui";
 import gridImage from "./textures/grid2.jpg";
+
+
+/**FPSを観測する */
+const stats = new Stats();
+stats.showPanel(0); // 0: fps, 1: ms, 2: memory
+document.body.appendChild(stats.dom);
+
+
+
 
 /**
  * Sizes
@@ -99,7 +109,7 @@ let baseSize = 5.0;
 
 
 // シミュレーション用のテクスチャ解像度
-const SIM_RESOLUTION = 256 * 6; 
+const SIM_RESOLUTION = 256 * 3; 
 
 
 
@@ -423,7 +433,7 @@ function computeDivergence(renderer) {
  * 圧力
  */
 
-const PRESSURE_ITERATIONS = 20;
+const PRESSURE_ITERATIONS = 10;
 // 圧力の FBO を作成
 let pressureA = createRenderTarget(SIM_RESOLUTION);
 let pressureB = createRenderTarget(SIM_RESOLUTION);
@@ -920,6 +930,8 @@ gui
 const clock = new THREE.Clock();
 
 const animate = () => {
+  stats.begin();
+
   //時間取得
   const elapsedTime = clock.getElapsedTime();
 
@@ -939,13 +951,10 @@ const animate = () => {
 
   window.requestAnimationFrame(animate);
 
+  stats.end();
 };
 
 animate();
-
-
-
-
 
 
 
